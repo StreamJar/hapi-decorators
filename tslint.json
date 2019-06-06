@@ -1,0 +1,13 @@
+{
+	"extends": [
+		"@streamjar/service-utils"
+	],
+	"rules": {
+		"function-name": false,
+		"no-any": false,
+		"no-import-side-effect": false,
+		"no-reserved-keywords": false,
+		"underscore-consistent-invocation": false,
+		"non-literal-fs-path": false
+	}
+}

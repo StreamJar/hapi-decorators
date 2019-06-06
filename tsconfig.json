@@ -1,0 +1,16 @@
+{
+    "extends": "@streamjar/service-utils",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist",
+		"declarationDir": "dist",
+		"experimentalDecorators": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+    ]
+}
