@@ -1,9 +1,9 @@
 {
   "name": "@streamjar/hapi-decorators",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Decorators for interacting with hapi",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "lint": "tslint --project .",
