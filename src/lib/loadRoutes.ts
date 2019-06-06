@@ -19,11 +19,7 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 	const moduleValidateConfig: RouteOptionsValidate = getValidationConfig(Module);
 
 	routeHandlers.forEach((handler: IRouteConfig) => {
-		const cfg: ServerRoute = _.cloneDeep(handler.config);
-
-		// Fetch configuration at a route level.
-		const authConfig: RouteOptionsAccess | null = getAuthConfig(handler.target);
-		const validateConfig: RouteOptionsValidate = getValidationConfig(handler.target);
+		const cfg: ServerRoute = handler.config;
 
 		// Update path to include base path
 		cfg.path = `${(moduleCfg ? moduleCfg.basePath : '')}${cfg.path || ''}`;
@@ -36,8 +32,8 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 			}
 
 			// Auth Priority: Predefined cfg > Route > Module
-			if (authConfig && !cfg.options.auth) {
-				cfg.options.auth = authConfig;
+			if (handler.auth && !cfg.options.auth) {
+				cfg.options.auth = handler.auth;
 			} else if (!cfg.options.auth && moduleAuth) {
 				cfg.options.auth = moduleAuth;
 			}
@@ -50,7 +46,7 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 			if (!cfg.options.validate.params) {
 				cfg.options.validate.params = {
 					...(<ValidationObject>moduleValidateConfig.params || {}),
-					...(<ValidationObject>validateConfig.params || {}),
+					...(<ValidationObject>handler.validation.params || {}),
 				};
 
 				if (Object.keys(cfg.options.validate.params).length === 0) {
@@ -59,13 +55,13 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 			}
 
 			// If query isn't defined. copy values
-			if (!cfg.options.validate.query && validateConfig.query) {
-				cfg.options.validate.query = validateConfig.query;
+			if (!cfg.options.validate.query && handler.validation.query) {
+				cfg.options.validate.query = handler.validation.query;
 			}
 
 			// If payload isn't defined, copy values
-			if (!cfg.options.validate.payload && validateConfig.payload) {
-				cfg.options.validate.query = validateConfig.payload;
+			if (!cfg.options.validate.payload && handler.validation.payload) {
+				cfg.options.validate.payload = handler.validation.payload;
 			}
 		}
 

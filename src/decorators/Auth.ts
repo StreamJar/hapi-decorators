@@ -26,10 +26,10 @@ export function getAuthConfig(module: typeof BaseModule | Function): RouteOption
 export function AuthDecorator(data: string | RouteOptionsAccess, scope?: string | string[]): Function {
 	const config: RouteOptionsAccess = (typeof data === 'string') ? {
 		strategy: data,
-		scope: scope || [],
+		scope: scope || undefined,
 	} : data;
 
-	return (target: any): void => {
-		Reflect.defineMetadata(authConfig, config, target);
+	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
+		Reflect.defineMetadata(authConfig, config, descriptor ? descriptor.value : target);
 	};
 }
