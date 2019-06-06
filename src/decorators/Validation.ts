@@ -23,19 +23,19 @@ export function getValidationConfig(target: Function): RouteOptionsValidate {
 }
 
 export function PayloadDecorator(validation: ValidationObject): Function {
-	return (target: any): void => {
-		Reflect.defineMetadata(payloadConfig, validation, target);
+	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
+		Reflect.defineMetadata(payloadConfig, validation, descriptor ? descriptor.value : target);
 	};
 }
 
 export function QueryDecorator(validation: ValidationObject): Function {
-	return (target: any): void => {
-		Reflect.defineMetadata(queryConfig, validation, target);
+	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
+		Reflect.defineMetadata(queryConfig, validation, descriptor ? descriptor.value : target);
 	};
 }
 
 export function ParamDecorator(validation: ValidationObject): Function {
-	return (target: any): void => {
-		Reflect.defineMetadata(paramConfig, validation, target);
+	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
+		Reflect.defineMetadata(paramConfig, validation, descriptor ? descriptor.value : target);
 	};
 }

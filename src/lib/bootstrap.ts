@@ -51,7 +51,6 @@ export async function bootstrap(App: IAppStatic): Promise<IApp> { // tslint:disa
 	// Register all the routes
 	for (const route of routes) {
 		server.route(route);
-		console.log((<any>route)[0]!.options!.validate!, route[0].method, route[0].path);
 	}
 
 	// Boot hapi

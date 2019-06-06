@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { join } from 'path';
 import { BaseModule } from '../lib/BaseModule';
 

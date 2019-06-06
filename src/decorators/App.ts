@@ -1,7 +1,6 @@
 import { Server, ServerExtEventsObject, ServerExtEventsRequestObject, ServerOptions, ServerRegisterPluginObject } from '@hapi/hapi';
 import 'reflect-metadata';
 
-
 const appConfig: Symbol = Symbol('@streamjar/hapi-decorators:app-config');
 
 export type IAppPlugins = ServerRegisterPluginObject<any>;

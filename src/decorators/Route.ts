@@ -1,7 +1,14 @@
-import { ServerRoute } from '@hapi/hapi';
+import { RouteOptionsAccess, RouteOptionsValidate, ServerRoute } from '@hapi/hapi';
 import { BaseModule } from '../lib/BaseModule';
+import { getAuthConfig } from './Auth';
+import { getValidationConfig } from './Validation';
 
-export type IRouteConfig = { config: ServerRoute; target: any };
+export type IRouteConfig = {
+	config: ServerRoute;
+	target: any;
+	auth: RouteOptionsAccess | null;
+	validation: RouteOptionsValidate;
+};
 
 const routesConfig: Symbol = Symbol('@streamjar/hapi-decorators:routes-config');
 
@@ -24,7 +31,12 @@ function handleRestMethod(method: string, path: string | ServerRoute): Function 
 	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
 		opts.handler = descriptor.value;
 
-		Reflect.defineMetadata(routesConfig, getRoutesConfig(target.constructor).concat({ config: opts, target }), target.constructor);
+		Reflect.defineMetadata(routesConfig, getRoutesConfig(target.constructor).concat({
+			config: opts,
+			target,
+			auth: getAuthConfig(descriptor.value),
+			validation: getValidationConfig(descriptor.value),
+		}), target.constructor);
 	};
 }
 
