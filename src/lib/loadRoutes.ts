@@ -49,18 +49,22 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 			// Merge params if not defined.
 			if (!cfg.options.validate.params) {
 				cfg.options.validate.params = {
-					...(<ValidationObject>moduleValidateConfig.params),
-					...(<ValidationObject>validateConfig.params),
+					...(<ValidationObject>moduleValidateConfig.params || {}),
+					...(<ValidationObject>validateConfig.params || {}),
 				};
+
+				if (Object.keys(cfg.options.validate.params).length === 0) {
+					delete cfg.options.validate.params;
+				}
 			}
 
 			// If query isn't defined. copy values
-			if (!cfg.options.validate.query) {
+			if (!cfg.options.validate.query && validateConfig.query) {
 				cfg.options.validate.query = validateConfig.query;
 			}
 
 			// If payload isn't defined, copy values
-			if (!cfg.options.validate.payload) {
+			if (!cfg.options.validate.payload && validateConfig.payload) {
 				cfg.options.validate.query = validateConfig.payload;
 			}
 		}

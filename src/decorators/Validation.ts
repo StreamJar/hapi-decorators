@@ -5,7 +5,7 @@ const paramConfig: Symbol = Symbol('@streamjar/hapi-decorators:route-param');
 const payloadConfig: Symbol = Symbol('@streamjar/hapi-decorators:route-paylaod');
 
 export function getValidationConfig(target: Function): RouteOptionsValidate {
-	const config: RouteOptionsValidate = { params: {}, payload: {}, query: {} };
+	const config: RouteOptionsValidate = { };
 
 	if (Reflect.hasMetadata(queryConfig, target)) {
 		config.query = Reflect.getMetadata(queryConfig, target);
