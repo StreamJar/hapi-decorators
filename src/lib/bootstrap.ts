@@ -10,6 +10,20 @@ const DEFAULT_APP_CONFIG: Partial<ServerOptions> = {
 	port: 3000,
 };
 
+export async function assembleRoutes(app: IAppStatic): Promise<ServerRoute[]> {
+	const meta: IAppConfig | null = getAppMetadata(app);
+
+	if (!meta) {
+		throw new Error('Module lacks the @App decorator');
+	}
+
+	// Load all the routes, ready for loading
+	const modules: typeof BaseModule[] = await loadModules(app);
+	const routes: ServerRoute[][] = modules.map(loadRoutes);
+
+	return (<ServerRoute[]>[]).concat(...routes);
+}
+
 /**
  * Bootstrap an instance of hapi.
  *
