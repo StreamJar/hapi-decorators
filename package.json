@@ -1,30 +1,33 @@
 {
-  "name": "@streamjar/hapi-decorators",
-  "version": "3.0.4",
-  "description": "Decorators for interacting with hapi",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
-  "scripts": {
-    "build": "rimraf dist && tsc",
-    "lint": "tslint --project .",
-    "lint:fix": "tslint --project . --fix",
-    "prepare": "npm run build"
-  },
-  "author": "Luke Thompson <luke@streamjar.tv>",
-  "dependencies": {
-    "@hapi/hapi": "^18.3.1",
-    "@hapi/joi": "^15.0.3",
-    "@types/hapi__hapi": "^18.2.3",
-    "@types/hapi__joi": "^15.0.1",
-    "@types/lodash": "^4.14.133",
-    "lodash": "^4.17.11",
-    "reflect-metadata": "^0.1.13",
-    "ts-node": "^8.2.0",
-    "typescript": "^3.5.1"
-  },
-  "devDependencies": {
-    "@streamjar/service-utils": "^1.0.11",
-    "rimraf": "^2.6.3",
-    "tslint": "^5.17.0"
-  }
+	"name": "@streamjar/hapi-decorators",
+	"version": "3.0.4",
+	"description": "Decorators for interacting with hapi",
+	"main": "dist/src/index.js",
+	"typings": "dist/src/index.d.ts",
+	"license": "MIT",
+	"repository": {
+		"url": "https://github.com/StreamJar/hapi-decorators"
+	},
+	"scripts": {
+		"build": "rimraf dist && tsc",
+		"lint": "tslint --project .",
+		"lint:fix": "tslint --project . --fix",
+		"prepare": "npm run build"
+	},
+	"author": "Luke Thompson <luke@streamjar.tv>",
+	"dependencies": {
+		"@hapi/hapi": "^18.3.1",
+		"@hapi/joi": "^15.0.3",
+		"@types/hapi__hapi": "^18.2.3",
+		"@types/hapi__joi": "^15.0.1",
+		"@types/lodash": "^4.14.133",
+		"lodash": "^4.17.11",
+		"reflect-metadata": "^0.1.13",
+		"ts-node": "^8.2.0",
+		"typescript": "^3.5.1"
+	},
+	"devDependencies": {
+		"rimraf": "^2.6.3",
+		"tslint": "^5.17.0"
+	}
 }
