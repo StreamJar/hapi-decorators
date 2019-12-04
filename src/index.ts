@@ -14,9 +14,13 @@ export {
 	AuthDecorator as Auth,
 } from './decorators/Auth';
 export {
+	FeatureFlagDecorator as FeatureFlag,
+} from './decorators/FeatureFlag';
+export {
 	ParamDecorator as Params,
 	PayloadDecorator as Payload,
 	QueryDecorator as Query,
 } from './decorators/Validation';
 
 export { bootstrap, assembleRoutes } from './lib/bootstrap';
+export { getFeatureFlagsFromRoute } from './lib/loadRoutes';

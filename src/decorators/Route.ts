@@ -1,6 +1,7 @@
 import { RouteOptionsAccess, RouteOptionsValidate, ServerRoute } from '@hapi/hapi';
 import { BaseModule } from '../lib/BaseModule';
 import { getAuthConfig } from './Auth';
+import { getFeatureFlagConfig } from './FeatureFlag';
 import { getValidationConfig } from './Validation';
 
 export type IRouteConfig = {
@@ -8,6 +9,7 @@ export type IRouteConfig = {
 	target: any;
 	auth: RouteOptionsAccess | null;
 	validation: RouteOptionsValidate;
+	featureFlags: { flags: string[] };
 };
 
 const routesConfig: Symbol = Symbol('@streamjar/hapi-decorators:routes-config');
@@ -36,6 +38,7 @@ function handleRestMethod(method: string, path: string | ServerRoute): Function 
 			target,
 			auth: getAuthConfig(descriptor.value),
 			validation: getValidationConfig(descriptor.value),
+			featureFlags: getFeatureFlagConfig(descriptor.value),
 		}), target.constructor);
 	};
 }

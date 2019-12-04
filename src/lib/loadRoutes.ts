@@ -1,11 +1,16 @@
-import { RouteOptionsAccess, RouteOptionsValidate, ServerRoute, ValidationObject } from '@hapi/hapi';
+import { Request, RouteOptionsAccess, RouteOptionsValidate, ServerRoute, ValidationObject } from '@hapi/hapi';
 import * as _ from 'lodash';
 import { BaseModule } from './BaseModule';
 
 import { getAuthConfig } from '../decorators/Auth';
+import { getFeatureFlagConfig } from '../decorators/FeatureFlag';
 import { getModuleConfig, IModuleConfig } from '../decorators/Module';
 import { getRoutesConfig, IRouteConfig } from '../decorators/Route';
 import { getValidationConfig } from '../decorators/Validation';
+
+export function getFeatureFlagsFromRoute(request: Request): string[] {
+	return (<any>request.route.settings.plugins).jarFeatureFlags || [];
+}
 
 // tslint:disable-next-line
 export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
@@ -16,6 +21,7 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 	// Fetch all configurations for the module
 	const moduleCfg: IModuleConfig | null = getModuleConfig(Module);
 	const moduleAuth: RouteOptionsAccess | null = getAuthConfig(Module);
+	const moduleFeatureFlags: { flags: string[] } = getFeatureFlagConfig(Module);
 	const moduleValidateConfig: RouteOptionsValidate = getValidationConfig(Module);
 
 	routeHandlers.forEach((handler: IRouteConfig) => {
@@ -51,6 +57,21 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 
 				if (Object.keys(cfg.options.validate.params).length === 0) {
 					delete cfg.options.validate.params;
+				}
+			}
+
+			// Store Feature Flags
+			if (!cfg.options.plugins) {
+				cfg.options.plugins = {};
+			}
+
+			(<any>cfg.options.plugins).jarFeatureFlags = moduleFeatureFlags.flags; // tslint:disable-line
+
+			if (handler.featureFlags.flags) {
+				for (const f of handler.featureFlags.flags) {
+					if (!(<any>cfg.options.plugins).jarFeatureFlags.includes(f)) {
+						(<any>cfg.options.plugins).jarFeatureFlags.push(f);
+					}
 				}
 			}
 

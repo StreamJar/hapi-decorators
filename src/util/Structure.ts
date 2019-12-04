@@ -28,7 +28,7 @@ export async function loadModulesFromPath(paths: string): Promise<typeof BaseMod
 	return searchDirectory(paths)
 		.then((path: string[]) => {
 			return path
-				.filter((path: string) => REGEX_ROUTES.test(path))
+				.filter((p: string) => REGEX_ROUTES.test(p))
 				.map((file: string) => {
 					const exportFile: any = require(file); // tslint:disable-line
 
