@@ -5,6 +5,7 @@ import { BaseModule } from './BaseModule';
 import { getAuthConfig } from '../decorators/Auth';
 import { getFeatureFlagConfig } from '../decorators/FeatureFlag';
 import { getModuleConfig, IModuleConfig } from '../decorators/Module';
+import { getRateLimitConfig, IRateLimitConfig } from '../decorators/RateLimit';
 import { getRoutesConfig, IRouteConfig } from '../decorators/Route';
 import { getValidationConfig } from '../decorators/Validation';
 
@@ -23,6 +24,7 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 	const moduleAuth: RouteOptionsAccess | null = getAuthConfig(Module);
 	const moduleFeatureFlags: { flags: string[] } = getFeatureFlagConfig(Module);
 	const moduleValidateConfig: RouteOptionsValidate = getValidationConfig(Module);
+	const moduleRateLimits: IRateLimitConfig[] = getRateLimitConfig(Module);
 
 	routeHandlers.forEach((handler: IRouteConfig) => {
 		const cfg: ServerRoute = handler.config;
@@ -74,6 +76,11 @@ export function loadRoutes(Module: typeof BaseModule): ServerRoute[] {
 					}
 				}
 			}
+
+			(<any>cfg.options.plugins).jarRateLimits = [
+				...moduleRateLimits,
+				...handler.rateLimits,
+			];
 
 			// If query isn't defined. copy values
 			if (!cfg.options.validate.query && handler.validation.query) {

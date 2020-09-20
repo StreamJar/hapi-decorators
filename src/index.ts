@@ -17,6 +17,11 @@ export {
 	FeatureFlagDecorator as FeatureFlag,
 } from './decorators/FeatureFlag';
 export {
+	RateLimitDecorator as RateLimit,
+	IRateLimitConfig,
+	getRateLimitFromRoute,
+} from './decorators/RateLimit';
+export {
 	ParamDecorator as Params,
 	PayloadDecorator as Payload,
 	QueryDecorator as Query,
