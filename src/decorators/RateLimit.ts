@@ -4,7 +4,9 @@ import { BaseModule } from '../lib/BaseModule';
 const ratelimitConfig: Symbol = Symbol('@streamjar/hapi-decorators:route-ratelimit-config');
 
 export interface IRateLimitConfigBase {
-	readonly?: boolean,
+	readonly?: boolean;
+	includeStatusCodes?: number[];
+	excludeStatusCodes?: number[];
 	shouldLimit?(request: Request): boolean;
 	onLimit?(request: Request): void;
 }
@@ -20,12 +22,11 @@ export interface IRateLimitConfig extends IRateLimitConfigBase {
 /**
  * Get the current configuration on a route
  *
- * @param request
+ * @param request request payload
  */
 export function getRateLimitFromRoute(request: Request): IRateLimitConfig[] {
 	return (<any>request.route.settings.plugins).jarRateLimits || [];
 }
-
 
 /**
  * Fetch the rate limit config from a given target.
@@ -53,11 +54,11 @@ export function RateLimitDecorator(bucket: string, type: string, opts?: IRateLim
 		const extra: IRateLimitConfigBase = {
 			readonly: false,
 			...(opts ?? {}),
-		}
+		};
 
 		Reflect.defineMetadata(ratelimitConfig, [
 			...getRateLimitConfig(descriptor ? descriptor.value : target),
-			{ bucket, type, ...extra }
+			{ bucket, type, ...extra },
 		], descriptor ? descriptor.value : target);
 	};
 }
