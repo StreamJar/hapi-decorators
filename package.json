@@ -1,6 +1,6 @@
 {
 	"name": "@streamjar/hapi-decorators",
-	"version": "3.0.7",
+	"version": "4.0.0-alpha.0",
 	"description": "Decorators for interacting with hapi",
 	"main": "dist/src/index.js",
 	"typings": "dist/src/index.d.ts",
