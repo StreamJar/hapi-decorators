@@ -1,4 +1,5 @@
 import { Server, ServerOptions, ServerRoute } from '@hapi/hapi';
+import Joi from 'joi';
 
 import { getAppMetadata, IApp, IAppConfig, IAppExtensions, IAppPlugins, IAppStatic } from '../decorators/App';
 import { loadModules } from '../decorators/Modules';
@@ -39,6 +40,9 @@ export async function bootstrap(App: IAppStatic): Promise<IApp> { // tslint:disa
 	// Create a new hapi server
 	const server: Server = new Server({ ...DEFAULT_APP_CONFIG, ...meta.config });
 	const serverApp: IApp = new App(server);
+
+	// Use Joi for validation.
+	server.validator(Joi);
 
 	// Init hook
 	if (serverApp.onInit) {

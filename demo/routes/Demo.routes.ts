@@ -1,5 +1,5 @@
 import { Lifecycle } from '@hapi/hapi';
-import * as Joi from '@hapi/joi';
+import Joi from 'joi';
 
 import { BaseModule, Get, Module, Params } from '../../src';
 
