@@ -1,4 +1,4 @@
-import { RouteOptionsAccess, RouteOptionsValidate, ServerRoute } from '@hapi/hapi';
+import { RouteDefMethods, RouteOptionsAccess, RouteOptionsValidate, ServerRoute } from '@hapi/hapi';
 import { BaseModule } from '../lib/BaseModule';
 import { getAuthConfig } from './Auth';
 import { getFeatureFlagConfig } from './FeatureFlag';
@@ -29,7 +29,7 @@ export function getRoutesConfig(target: typeof BaseModule): IRouteConfig[] {
 	return Reflect.getMetadata(routesConfig, target);
 }
 
-function handleRestMethod(method: string, path: string | ServerRoute): Function {
+function handleRestMethod(method: RouteDefMethods, path: string | ServerRoute): Function {
 	const opts: ServerRoute = typeof path === 'string' ? { method, path } : path;
 
 	return (target: any, _: string, descriptor: PropertyDescriptor): void => {
